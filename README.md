@@ -1,6 +1,11 @@
 # fal-nano-mcp
 
-MCP server for generating and editing images using [Nano Banana 2](https://fal.ai/models/fal-ai/nano-banana-2) (Google's image generation/editing model) via [Fal AI](https://fal.ai).
+A minimal MCP server hardcoded to use [Nano Banana 2](https://fal.ai/models/fal-ai/nano-banana-2) via [Fal AI](https://fal.ai). It exposes exactly two tools:
+
+- **`generate_image`** — text-to-image generation
+- **`edit_image`** — image-to-image editing
+
+No model selection, no routing — just Nano Banana 2.
 
 ## Tools
 
@@ -32,13 +37,17 @@ Sign up at [fal.ai](https://fal.ai) and create an API key.
 npm install -g fal-nano-mcp
 ```
 
-### 3. Add to Claude Code
+### 3. Add to your MCP client
+
+#### Claude Code (CLI)
 
 ```bash
 claude mcp add fal-nano-mcp -e FAL_KEY=your-fal-api-key-here -- fal-nano-mcp
 ```
 
-Or manually add to your Claude Code MCP config (`~/.claude/settings.json`):
+#### JSON config (Claude Code, Claude Desktop, Cursor, etc.)
+
+Add to your MCP config file (e.g. `~/.claude/settings.json`, `claude_desktop_config.json`, `.cursor/mcp.json`):
 
 ```json
 {
@@ -55,7 +64,7 @@ Or manually add to your Claude Code MCP config (`~/.claude/settings.json`):
 
 ### 4. Verify
 
-Restart Claude Code and the `generate_image` and `edit_image` tools should be available.
+Restart your MCP client and the `generate_image` and `edit_image` tools should be available.
 
 ## Usage Examples
 
