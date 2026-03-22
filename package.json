@@ -1,0 +1,47 @@
+{
+  "name": "fal-nano-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for generating and editing images using Nano Banana 2 via Fal AI",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "fal-nano-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": [
+    "mcp",
+    "fal",
+    "nano-banana",
+    "image-generation",
+    "ai",
+    "model-context-protocol"
+  ],
+  "author": "Daniel Rosehill",
+  "license": "MIT",
+  "dependencies": {
+    "@fal-ai/client": "^1.2.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielrosehill/Fal-Nano-MCP.git"
+  }
+}
