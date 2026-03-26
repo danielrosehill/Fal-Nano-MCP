@@ -69,8 +69,8 @@ server.registerTool("generate_image", {
       .describe("Output format. Default: png"),
     resolution: z
       .enum(RESOLUTIONS)
-      .optional()
-      .describe("Resolution. Default: 1K"),
+      .default("1K")
+      .describe("Resolution. Default: 1K. Use 1K unless the user explicitly requests higher resolution. 2K/4K cost significantly more and are rarely needed."),
     seed: z
       .number()
       .int()
@@ -86,8 +86,8 @@ server.registerTool("generate_image", {
       .describe("Enable web search for latest information. Default: false"),
     thinking_level: z
       .enum(THINKING_LEVELS)
-      .optional()
-      .describe("Enable model thinking: 'minimal' or 'high'"),
+      .default("minimal")
+      .describe("Model thinking level. Default: minimal. Use 'minimal' unless the user explicitly requests higher quality reasoning. 'high' is slower and more expensive — only use when the prompt requires complex reasoning or the user asks for it."),
   },
 }, async ({ prompt, num_images, aspect_ratio, output_format, resolution, seed, safety_tolerance, enable_web_search, thinking_level }) => {
   try {
@@ -95,11 +95,11 @@ server.registerTool("generate_image", {
     if (num_images !== undefined) input.num_images = num_images;
     if (aspect_ratio !== undefined) input.aspect_ratio = aspect_ratio;
     if (output_format !== undefined) input.output_format = output_format;
-    if (resolution !== undefined) input.resolution = resolution;
+    input.resolution = resolution;
     if (seed !== undefined) input.seed = seed;
     if (safety_tolerance !== undefined) input.safety_tolerance = safety_tolerance;
     if (enable_web_search !== undefined) input.enable_web_search = enable_web_search;
-    if (thinking_level !== undefined) input.thinking_level = thinking_level;
+    input.thinking_level = thinking_level;
 
     const result = (await fal.subscribe("fal-ai/nano-banana-2", {
       input,
@@ -158,8 +158,8 @@ server.registerTool("edit_image", {
       .describe("Output format. Default: png"),
     resolution: z
       .enum(RESOLUTIONS)
-      .optional()
-      .describe("Resolution. Default: 1K"),
+      .default("1K")
+      .describe("Resolution. Default: 1K. Use 1K unless the user explicitly requests higher resolution. 2K/4K cost significantly more and are rarely needed."),
     seed: z
       .number()
       .int()
@@ -175,8 +175,8 @@ server.registerTool("edit_image", {
       .describe("Enable web search for latest information. Default: false"),
     thinking_level: z
       .enum(THINKING_LEVELS)
-      .optional()
-      .describe("Enable model thinking: 'minimal' or 'high'"),
+      .default("minimal")
+      .describe("Model thinking level. Default: minimal. Use 'minimal' unless the user explicitly requests higher quality reasoning. 'high' is slower and more expensive — only use when the prompt requires complex reasoning or the user asks for it."),
   },
 }, async ({ prompt, image_urls, num_images, aspect_ratio, output_format, resolution, seed, safety_tolerance, enable_web_search, thinking_level }) => {
   try {
@@ -184,11 +184,11 @@ server.registerTool("edit_image", {
     if (num_images !== undefined) input.num_images = num_images;
     if (aspect_ratio !== undefined) input.aspect_ratio = aspect_ratio;
     if (output_format !== undefined) input.output_format = output_format;
-    if (resolution !== undefined) input.resolution = resolution;
+    input.resolution = resolution;
     if (seed !== undefined) input.seed = seed;
     if (safety_tolerance !== undefined) input.safety_tolerance = safety_tolerance;
     if (enable_web_search !== undefined) input.enable_web_search = enable_web_search;
-    if (thinking_level !== undefined) input.thinking_level = thinking_level;
+    input.thinking_level = thinking_level;
 
     const result = (await fal.subscribe("fal-ai/nano-banana-2/edit", {
       input,
