@@ -1,6 +1,6 @@
 {
   "name": "fal-nano-mcp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MCP server for generating and editing images using Nano Banana 2 via Fal AI",
   "type": "module",
   "main": "dist/index.js",

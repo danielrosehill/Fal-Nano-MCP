@@ -41,7 +41,7 @@ interface FalResult {
 
 const server = new McpServer({
   name: "fal-nano-mcp",
-  version: "1.0.0",
+  version: "1.1.0",
 });
 
 server.registerTool("generate_image", {
