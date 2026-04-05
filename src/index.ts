@@ -90,10 +90,22 @@ async function resolveImageInput(input: string): Promise<string> {
   return url;
 }
 
+const VERSION = "1.3.2";
+
 function createServer(): McpServer {
   const server = new McpServer({
     name: "fal-nano-mcp",
-    version: "1.3.1",
+    version: VERSION,
+  });
+
+  server.registerTool("show_version", {
+    title: "Show Version",
+    description: "Show the current version of the fal-nano-mcp server.",
+    inputSchema: {},
+  }, async () => {
+    return {
+      content: [{ type: "text" as const, text: `fal-nano-mcp v${VERSION}` }],
+    };
   });
 
   server.registerTool("generate_image", {
