@@ -57,15 +57,27 @@ const MIME_TYPES: Record<string, string> = {
 };
 
 async function resolveImageInput(input: string): Promise<string> {
+  // Trim whitespace and strip file:// prefix
+  let cleaned = input.trim();
+  if (cleaned.startsWith("file://")) {
+    cleaned = decodeURIComponent(cleaned.slice(7));
+  }
+
   // If it looks like a URL, pass through
-  if (/^https?:\/\//i.test(input) || /^data:/i.test(input)) {
-    return input;
+  if (/^https?:\/\//i.test(cleaned) || /^data:/i.test(cleaned)) {
+    return cleaned;
+  }
+
+  // Expand tilde to home directory
+  if (cleaned.startsWith("~/") || cleaned === "~") {
+    const home = process.env.HOME || process.env.USERPROFILE || "";
+    cleaned = path.join(home, cleaned.slice(1));
   }
 
   // Treat as local file path
-  const filePath = path.resolve(input);
+  const filePath = path.resolve(cleaned);
   if (!fs.existsSync(filePath)) {
-    throw new Error(`Local file not found: ${filePath}`);
+    throw new Error(`Local file not found: ${filePath} (original input: ${input})`);
   }
 
   const fileBuffer = fs.readFileSync(filePath);
@@ -81,7 +93,7 @@ async function resolveImageInput(input: string): Promise<string> {
 function createServer(): McpServer {
   const server = new McpServer({
     name: "fal-nano-mcp",
-    version: "1.3.0",
+    version: "1.3.1",
   });
 
   server.registerTool("generate_image", {
