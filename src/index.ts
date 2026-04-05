@@ -101,7 +101,9 @@ function createServer(): McpServer {
   server.registerTool("show_version", {
     title: "Show Version",
     description: "Show the current version of the fal-nano-mcp server.",
-    inputSchema: {},
+    inputSchema: {
+      _dummy: z.string().optional().describe("No input required"),
+    },
   }, async () => {
     return {
       content: [{ type: "text" as const, text: `fal-nano-mcp v${VERSION}` }],
