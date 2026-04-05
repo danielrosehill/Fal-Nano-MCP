@@ -3,7 +3,8 @@
 A minimal MCP server hardcoded to use [Nano Banana 2](https://fal.ai/models/fal-ai/nano-banana-2) via [Fal AI](https://fal.ai). It exposes exactly two tools:
 
 - **`generate_image`** — text-to-image generation
-- **`edit_image`** — image-to-image editing
+- **`edit_image`** — image-to-image editing (supports local file paths and URLs)
+- **`show_version`** — display the server version
 
 No model selection, no routing — just Nano Banana 2.
 
@@ -21,9 +22,19 @@ Generate images from text prompts.
 
 Edit existing images with a text prompt.
 
-**Required:** `prompt` (string), `image_urls` (array of URLs)
+**Required:** `prompt` (string), `image_urls` (array of image URLs or absolute local file paths)
 
 **Optional:** Same as `generate_image`
+
+Local file paths are uploaded to Fal's temporary storage before processing. Supported path formats:
+- Absolute paths: `/home/user/photo.jpg`
+- Tilde paths: `~/photo.jpg`
+- `file://` URIs: `file:///home/user/photo.jpg`
+- HTTP/HTTPS URLs (passed through directly)
+
+### `show_version`
+
+Returns the current server version. No inputs required.
 
 ## Setup
 
@@ -64,7 +75,24 @@ Add to your MCP config file (e.g. `~/.claude/settings.json`, `claude_desktop_con
 
 ### 4. Verify
 
-Restart your MCP client and the `generate_image` and `edit_image` tools should be available.
+Restart your MCP client and the `generate_image`, `edit_image`, and `show_version` tools should be available.
+
+### MetaMCP (Docker) Setup
+
+If you run MetaMCP in a Docker container, the MCP server runs inside the container and **cannot access host filesystem paths by default**. To enable `edit_image` with local file paths, mount your home directory into the MetaMCP container.
+
+Add this volume to the `app` service in your `docker-compose.yml`:
+
+```yaml
+volumes:
+  - /home/youruser:/home/youruser:ro
+```
+
+The `:ro` (read-only) flag is recommended since the server only needs to read files. After updating, restart MetaMCP:
+
+```bash
+docker compose down && docker compose up -d
+```
 
 ## Usage Examples
 
